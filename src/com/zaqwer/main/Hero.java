@@ -8,7 +8,19 @@ import com.zaqwer.main.Creature;
 public abstract class Hero extends Creature {
     public Weapon weapon;
     public Equipment[] equipment;
-    public int melee_damage, range_damage, mana;
+    /*
+        Экипировка персонажа - 7 слотов
+            0 - голова
+            1 - нагрудник
+            2 - аксессуар (оберег\кольцо\{прочее бесполезное говно})
+            3 - левая рука (заблокировна, если надето двуручное оружие)
+            4 - правая рука
+            5 - поножи
+            6 - сапоги
+     */
+    public int melee_damage // "Родной" урон в ближнем бою
+            , range_damage, // "Родной" урон в дальнем бою
+             mana;
     private int agility, endurance,intelligence, strength,increment_agility, increment_endurance, increment_strength,increment_intelligence;
     public Hero(int lvl) {
         super(lvl);
@@ -20,8 +32,7 @@ public abstract class Hero extends Creature {
     {
         this.melee_damage = this.strength;
         this.range_damage = this.agility;
-        if(this.weapon.type == "melee") this.damage = this.weapon.damage + this.melee_damage;
-        if(this.weapon.type == "range") this.damage = this.weapon.damage + this.range_damage;
+        if(!this.weapon.isRanged()) this.damage = this.weapon.damage + this.melee_damage; else this.damage = this.weapon.damage + this.range_damage;
         this.mana = 10 + this.intelligence * 16;
         this.hp = 50 + this.endurance * 10;
     }
@@ -66,7 +77,7 @@ public abstract class Hero extends Creature {
         this.intelligence -= intelligence;
     }
 
-    public void attack()
+    public void attack() // Расчёт дальности будет происходить в самом бою
     {
         this.getTarget().takeDamage((int)(this.getDamage() - (this.getDamage() * (getTarget().getArmor() * 0.01))));
     }

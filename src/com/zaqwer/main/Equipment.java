@@ -33,6 +33,7 @@ public class Equipment extends Item implements IEquipable{
             hero.equipment[this.slot] = this;
         }
         hero.incStats(this.inc_int,this.inc_ag,this.inc_str,this.inc_end);
+        hero.recountStats();
     }
 
 
@@ -48,5 +49,6 @@ public class Equipment extends Item implements IEquipable{
             } else {
                 hero.location.items.add(this);
             }
+        hero.recountStats();
     }
 }
