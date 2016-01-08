@@ -31,7 +31,7 @@ public class Weapon extends Equipment {
     }
 
     public boolean isRanged() {
-        if(this.range > 0) return true;
-        else return false;
+        return this.range > 0;
     }
+
 }
