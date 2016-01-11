@@ -4,6 +4,7 @@ package com.zaqwer.main;
  * Created by zaqwer on 08.01.16.
  */
 public class Battle extends Thread {
+    private Location location; //Поле боя
     private int distance; //Расстояние между противниками
     private Creature w1,w2; //Бойцы
     public Battle(Creature w1, Creature w2)
@@ -44,6 +45,24 @@ public class Battle extends Thread {
                 this.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+
+            if(!this.w1.isAlive()) //Проверка конца битвы для первого дебила
+            {
+                for(Item i : this.w1.inventory)
+                {
+                    this.location.items.add(i);
+                }
+                this.w1.removeFromWorld();
+            }
+
+            if(!this.w2.isAlive()) //Проверка конца битвы для второго дебила
+            {
+                for(Item i : this.w2.inventory)
+                {
+                    this.location.items.add(i);
+                }
+                this.w2.removeFromWorld();
             }
         }
     }
