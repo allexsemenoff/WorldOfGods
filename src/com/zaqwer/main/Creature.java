@@ -7,6 +7,9 @@ import java.util.ArrayList;
  */
 public abstract class Creature {
     public Location location;
+    //Статы каждого вида существ скалируются относительно их уровня. Т.е. у огра статы будут отличны от скелета мага-элементалиста
+    public int moveSpeed;
+    public int attack_range;
     public int hp;
     public int damage;
     public int armor;
@@ -14,14 +17,18 @@ public abstract class Creature {
     public ArrayList<Item> inventory;
     public boolean isInventoryFull()
     {
-        if(this.inventory.size() == 16) return true; else return false;
+        return this.inventory.size() == 16;
     }
     Creature target;
+    public Creature(int lvl)
+    {
+        this.moveSpeed = 100;
+        this.inventory = new ArrayList<Item>();
+        this.lvl = lvl;
+    }
     public boolean isAlive()
     {
-        if(this.hp > 0) return true;
-        else
-            return false;
+        return this.hp > 0;
     }
 
     public void pickUpItem(Item item)
@@ -52,11 +59,6 @@ public abstract class Creature {
     }
     public Creature getTarget() {
         return target;
-    }
-    public Creature(int lvl)
-    {
-        this.inventory = new ArrayList<Item>();
-        this.lvl = lvl;
     }
     abstract public void takeDamage(int damage);
     abstract public void attack();
