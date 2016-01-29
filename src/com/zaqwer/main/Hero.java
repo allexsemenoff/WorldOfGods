@@ -21,7 +21,8 @@ public abstract class Hero extends Creature {
     public int melee_damage // "Родной" урон в ближнем бою
             , range_damage, // "Родной" урон в дальнем бою
              mana;
-    private int agility, endurance,intelligence, strength,increment_agility, increment_endurance, increment_strength,increment_intelligence;
+    private int agility, endurance,intelligence, strength,
+            increment_agility, increment_endurance, increment_strength,increment_intelligence; //Увеличение характеристик с каждым уровнем
     public Hero(int lvl) {
         super(lvl);
         this.equipment = new Equipment[7];
@@ -30,11 +31,15 @@ public abstract class Hero extends Creature {
 
     public void recountStats()
     {
+
+        this.moveSpeed = 100 + this.agility;
         this.melee_damage = this.strength;
         this.range_damage = this.agility;
         if(!this.weapon.isRanged()) this.damage = this.weapon.damage + this.melee_damage; else this.damage = this.weapon.damage + this.range_damage;
+        this.attack_range = this.weapon.range;
         this.mana = 10 + this.intelligence * 16;
         this.hp = 50 + this.endurance * 10;
+        this.weapon = (Weapon)this.equipment[4]; // Нехорошо
     }
 
     public void lvlUp()
